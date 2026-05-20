@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lintmus — Token Due Diligence</title>
+  <meta name="description" content="Safety scores for any EVM or Solana token. Honeypot detection, tax analysis, liquidity health, and deployer history — before you trade." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">⬡ Lintmus</a>
+      <div class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#scoring">Scoring</a>
+        <a href="#api">API</a>
+        <a href="https://github.com/lintmus/lintmus" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <div class="container">
+      <div class="badge">Built on bankr.bot</div>
+      <h1>Know before you ape.</h1>
+      <p class="subtitle">Lintmus runs a multi-source safety analysis on any EVM or Solana token and returns a 0–100 score with a full breakdown.</p>
+      <div class="cta-group">
+        <a href="#api" class="btn-primary">Try the API</a>
+        <a href="#install" class="btn-secondary">Install as a skill</a>
+      </div>
+      <div class="report-preview">
+        <div class="report-header">
+          <span class="report-address">0x532f...142e4 · Base</span>
+          <span class="score-badge">84 / 100</span>
+        </div>
+        <div class="report-grid">
+          <div class="report-row pass"><span>Honeypot</span><span>No ✓</span></div>
+          <div class="report-row pass"><span>Buy / Sell Tax</span><span>0% / 0% ✓</span></div>
+          <div class="report-row pass"><span>Mintable</span><span>No ✓</span></div>
+          <div class="report-row pass"><span>Hidden Owner</span><span>No ✓</span></div>
+          <div class="report-row pass"><span>LP Locked</span><span>72% ✓</span></div>
+          <div class="report-row pass"><span>Liquidity</span><span>$284,310 ✓</span></div>
+          <div class="report-row pass"><span>Contract</span><span>Verified ✓</span></div>
+          <div class="report-row pass"><span>Deployer Rugs</span><span>0 ✓</span></div>
+        </div>
+        <div class="report-verdict pass-verdict">Low risk. No major red flags detected.</div>
+        <div class="report-price">0.03 USDC · powered by x402</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="how-it-works">
+    <div class="container">
+      <h2>What Lintmus checks</h2>
+      <div class="checks-grid">
+        <div class="check-card">
+          <div class="check-icon">🍯</div>
+          <h3>Honeypot Detection</h3>
+          <p>Identifies tokens you can buy but not sell, using GoPlus Security's on-chain simulation engine.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">💸</div>
+          <h3>Tax Analysis</h3>
+          <p>Surfaces hidden buy and sell taxes. Anything above 10% is flagged — above 30% is penalised heavily.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">🔑</div>
+          <h3>Ownership Flags</h3>
+          <p>Detects mint functions, hidden owners, the ability to reclaim ownership, and pausable transfers.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">💧</div>
+          <h3>Liquidity Health</h3>
+          <p>Checks current liquidity depth, 24h volume, LP lock percentage, and how long the pair has existed.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">📄</div>
+          <h3>Contract Verification</h3>
+          <p>Confirms whether source code is publicly verified. Unverified contracts score lower by default.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">🕵️</div>
+          <h3>Deployer History</h3>
+          <p>Looks up the wallet that deployed the contract. Known rug deployers are penalised per incident.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="scoring" class="alt">
+    <div class="container">
+      <h2>How the score works</h2>
+      <p class="section-sub">Starts at 100. Penalties are applied for red flags, bonuses for trust signals. Capped at 0–100. Missing data always scores neutral — never inflated.</p>
+      <table class="score-table">
+        <thead>
+          <tr><th>Signal</th><th>Impact</th></tr>
+        </thead>
+        <tbody>
+          <tr class="penalty"><td>Honeypot confirmed</td><td>−80</td></tr>
+          <tr class="penalty"><td>Sell tax &gt; 30%</td><td>−40</td></tr>
+          <tr class="penalty"><td>Sell tax 15–30%</td><td>−25</td></tr>
+          <tr class="penalty"><td>Hidden owner</td><td>−20</td></tr>
+          <tr class="penalty"><td>Can reclaim ownership</td><td>−15</td></tr>
+          <tr class="penalty"><td>Top 10 holders &gt; 80%</td><td>−15</td></tr>
+          <tr class="penalty"><td>Known rug deployer</td><td>−15 per rug</td></tr>
+          <tr class="penalty"><td>Transfer pausable</td><td>−10</td></tr>
+          <tr class="penalty"><td>Mintable supply</td><td>−10</td></tr>
+          <tr class="penalty"><td>Creator holds &gt; 20%</td><td>−10</td></tr>
+          <tr class="bonus"><td>Liquidity &gt; $100K</td><td>+10</td></tr>
+          <tr class="bonus"><td>LP locked &gt; 80%</td><td>+5</td></tr>
+          <tr class="bonus"><td>Contract verified</td><td>+5</td></tr>
+          <tr class="bonus"><td>Token age &gt; 1 month</td><td>+5</td></tr>
+          <tr class="bonus"><td>Token age &gt; 1 week</td><td>+3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="container">
+      <h2>Install as a bankr.bot skill</h2>
+      <p class="section-sub">Works with any agent that supports the SKILL.md format — Claude Code, OpenClaw, Cursor.</p>
+      <pre><code>install the lintmus skill from https://github.com/lintmus/lintmus</code></pre>
+      <p class="section-sub" style="margin-top: 2rem;">Then ask your agent:</p>
+      <pre><code>analyze token 0x532f27101965dd16442e59d40670faf5ebb142e4 on base
+
+is this safe to buy? 0xADDRESS on ethereum
+
+run lintmus before I ape into this</code></pre>
+    </div>
+  </section>
+
+  <section id="api" class="alt">
+    <div class="container">
+      <h2>Direct API</h2>
+      <p class="section-sub">Payment of <strong>0.03 USDC</strong> is handled automatically via the x402 protocol. Reports are cached for 60 minutes.</p>
+      <pre><code>POST https://x402.bankr.bot/0xD3aDb4D4B787eE631A1B2618464e21B229873075/analyze
+
+{
+  "address": "0x532f27101965dd16442e59d40670faf5ebb142e4",
+  "chain": "base"
+}</code></pre>
+      <div class="chains">
+        <span>base</span>
+        <span>eth</span>
+        <span>polygon</span>
+        <span>solana</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="database">
+    <div class="container narrow">
+      <h2>The rug database</h2>
+      <p>Every token analyzed by Lintmus is logged. Outcomes — rug, alive, or abandoned — are recorded as they happen and published openly so anyone can verify the scoring methodology and track historical accuracy.</p>
+      <p>This dataset grows with every report and forms the foundation for future ML-based scoring improvements. The data is yours to use.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="logo">⬡ Lintmus</span>
+          <span class="footer-sub">Token due diligence for the bankr.bot ecosystem.</span>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/lintmus/lintmus" target="_blank">GitHub</a>
+          <a href="https://bankr.bot" target="_blank">bankr.bot</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>$LINTMUS on Base · MIT License</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
