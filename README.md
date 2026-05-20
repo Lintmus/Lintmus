@@ -12,13 +12,16 @@ Lintmus runs a multi-source safety analysis on any EVM or Solana token and retur
 
 | Check | Source |
 |-------|--------|
-| Honeypot detection | GoPlus Security |
-| Buy / sell tax | GoPlus Security |
+| Honeypot detection | GoPlus Security + honeypot.is (cross-validated) |
+| Buy / sell tax (scored separately) | GoPlus Security + honeypot.is |
 | Mint function, hidden owner, pausable transfers | GoPlus Security |
 | LP lock status | GoPlus Security |
 | Liquidity, volume, age | DexScreener |
+| Wash trading detection (vol/liq ratio) | DexScreener |
+| Active pair count across DEXes | DexScreener |
 | Contract verification | Etherscan API V2 |
 | Deployer address & history | Alchemy |
+| Solana deep scan (holder concentration, mint/freeze authority) | Rugcheck.xyz |
 
 ---
 
@@ -29,7 +32,7 @@ Lintmus Report — 0x532f...142e4 (base)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Safety Score:      84 / 100  ✓ Low Risk
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Honeypot           No ✓
+Honeypot           No ✓  (GoPlus + honeypot.is)
 Buy / Sell Tax     0% / 0% ✓
 Mintable           No ✓
 Hidden Owner       No ✓
@@ -37,6 +40,8 @@ Transfer Pausable  No ✓
 LP Locked          72% ✓
 Liquidity          $284,310 ✓
 Volume (24h)       $41,200
+Wash Trading       No ✓  (vol/liq 0.14×)
+Active Pairs       8 ✓
 Age                312h (13d) ✓
 Contract           Verified ✓
 Deployer           0x46f6...2b45
@@ -96,23 +101,45 @@ Lintmus starts at 100 and applies penalties and bonuses:
 
 | Signal | Impact |
 |--------|--------|
-| Honeypot confirmed | −80 |
+| Honeypot confirmed (both sources) | −90 |
+| Honeypot confirmed (one source) | −80 |
 | Sell tax > 30% | −40 |
 | Sell tax 15–30% | −25 |
+| Rugcheck danger (Solana) | −30 |
 | Hidden owner | −20 |
 | Can reclaim ownership | −15 |
+| Top 10 holders > 80% | −15 |
+| Known rug deployer | −15 per rug |
+| Rugcheck warn (Solana) | −15 |
+| Wash trading (vol/liq > 10×) | −15 |
 | Transfer pausable | −10 |
 | Mintable supply | −10 |
-| Top 10 holders > 80% | −15 |
 | Creator holds > 20% | −10 |
-| Known rug deployer | −15 per rug |
+| Buy tax > 20% | −10 |
+| Dangerously low liquidity (< $1K) | −10 |
+| Token age < 1 hour | −10 |
+| Wash trading (vol/liq 5–10×) | −8 |
+| Buy tax > 10% | −5 |
 | Liquidity > $100K | +10 |
 | LP locked > 80% | +5 |
+| 5+ active trading pairs | +5 |
 | Contract verified | +5 |
-| Token age > 1 week | +3 |
 | Token age > 1 month | +5 |
+| 3+ active trading pairs | +3 |
+| Token age > 1 week | +3 |
 
 Scores are capped at 0–100. Missing data scores neutral — never inflated.
+
+---
+
+## Data sources
+
+- [GoPlus Security](https://gopluslabs.io) — honeypot, tax, ownership flags
+- [honeypot.is](https://honeypot.is) — independent honeypot cross-validation
+- [Rugcheck.xyz](https://rugcheck.xyz) — Solana deep scan
+- [DexScreener](https://dexscreener.com) — liquidity, volume, pair count, age
+- [Etherscan API V2](https://etherscan.io) — contract verification
+- [Alchemy](https://alchemy.com) — deployer address lookup
 
 ---
 

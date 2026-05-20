@@ -43,6 +43,8 @@
           <div class="report-row pass"><span>Hidden Owner</span><span>No ✓</span></div>
           <div class="report-row pass"><span>LP Locked</span><span>72% ✓</span></div>
           <div class="report-row pass"><span>Liquidity</span><span>$284,310 ✓</span></div>
+          <div class="report-row pass"><span>Wash Trading</span><span>No ✓</span></div>
+          <div class="report-row pass"><span>Active Pairs</span><span>8 ✓</span></div>
           <div class="report-row pass"><span>Contract</span><span>Verified ✓</span></div>
           <div class="report-row pass"><span>Deployer Rugs</span><span>0 ✓</span></div>
         </div>
@@ -59,12 +61,12 @@
         <div class="check-card">
           <div class="check-icon">🍯</div>
           <h3>Honeypot Detection</h3>
-          <p>Identifies tokens you can buy but not sell, using GoPlus Security's on-chain simulation engine.</p>
+          <p>Cross-validated across two independent sources — GoPlus Security and honeypot.is. If both agree it's a trap, the penalty is higher.</p>
         </div>
         <div class="check-card">
           <div class="check-icon">💸</div>
           <h3>Tax Analysis</h3>
-          <p>Surfaces hidden buy and sell taxes. Anything above 10% is flagged — above 30% is penalised heavily.</p>
+          <p>Buy and sell taxes scored separately. Sell tax above 10% is penalised heavily. Buy tax above 10% receives a milder penalty. Both matter.</p>
         </div>
         <div class="check-card">
           <div class="check-icon">🔑</div>
@@ -74,7 +76,12 @@
         <div class="check-card">
           <div class="check-icon">💧</div>
           <h3>Liquidity Health</h3>
-          <p>Checks current liquidity depth, 24h volume, LP lock percentage, and how long the pair has existed.</p>
+          <p>Checks depth, LP lock %, and how many active pairs exist across DEXes. Tokens with 3+ real pairs score a bonus.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">📊</div>
+          <h3>Wash Trading Detection</h3>
+          <p>Flags suspicious volume. A 24h volume-to-liquidity ratio above 5× indicates artificial activity and is penalised.</p>
         </div>
         <div class="check-card">
           <div class="check-icon">📄</div>
@@ -85,6 +92,11 @@
           <div class="check-icon">🕵️</div>
           <h3>Deployer History</h3>
           <p>Looks up the wallet that deployed the contract. Known rug deployers are penalised per incident.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">☀️</div>
+          <h3>Solana Deep Scan</h3>
+          <p>Solana tokens are analysed with Rugcheck.xyz in addition to GoPlus — surfacing holder concentration, mint authority, and freeze authority risks specific to the SPL token standard.</p>
         </div>
       </div>
     </div>
@@ -99,20 +111,31 @@
           <tr><th>Signal</th><th>Impact</th></tr>
         </thead>
         <tbody>
-          <tr class="penalty"><td>Honeypot confirmed</td><td>−80</td></tr>
+          <tr class="penalty"><td>Honeypot confirmed (both sources)</td><td>−90</td></tr>
+          <tr class="penalty"><td>Honeypot confirmed (one source)</td><td>−80</td></tr>
           <tr class="penalty"><td>Sell tax &gt; 30%</td><td>−40</td></tr>
           <tr class="penalty"><td>Sell tax 15–30%</td><td>−25</td></tr>
+          <tr class="penalty"><td>Rugcheck danger (Solana)</td><td>−30</td></tr>
           <tr class="penalty"><td>Hidden owner</td><td>−20</td></tr>
           <tr class="penalty"><td>Can reclaim ownership</td><td>−15</td></tr>
           <tr class="penalty"><td>Top 10 holders &gt; 80%</td><td>−15</td></tr>
           <tr class="penalty"><td>Known rug deployer</td><td>−15 per rug</td></tr>
+          <tr class="penalty"><td>Rugcheck warn (Solana)</td><td>−15</td></tr>
+          <tr class="penalty"><td>Wash trading (vol/liq &gt; 10×)</td><td>−15</td></tr>
           <tr class="penalty"><td>Transfer pausable</td><td>−10</td></tr>
           <tr class="penalty"><td>Mintable supply</td><td>−10</td></tr>
           <tr class="penalty"><td>Creator holds &gt; 20%</td><td>−10</td></tr>
+          <tr class="penalty"><td>Buy tax &gt; 20%</td><td>−10</td></tr>
+          <tr class="penalty"><td>Dangerously low liquidity (&lt; $1K)</td><td>−10</td></tr>
+          <tr class="penalty"><td>Token age &lt; 1 hour</td><td>−10</td></tr>
+          <tr class="penalty"><td>Wash trading (vol/liq 5–10×)</td><td>−8</td></tr>
+          <tr class="penalty"><td>Buy tax &gt; 10%</td><td>−5</td></tr>
           <tr class="bonus"><td>Liquidity &gt; $100K</td><td>+10</td></tr>
           <tr class="bonus"><td>LP locked &gt; 80%</td><td>+5</td></tr>
+          <tr class="bonus"><td>5+ active trading pairs</td><td>+5</td></tr>
           <tr class="bonus"><td>Contract verified</td><td>+5</td></tr>
           <tr class="bonus"><td>Token age &gt; 1 month</td><td>+5</td></tr>
+          <tr class="bonus"><td>3+ active trading pairs</td><td>+3</td></tr>
           <tr class="bonus"><td>Token age &gt; 1 week</td><td>+3</td></tr>
         </tbody>
       </table>
