@@ -8,7 +8,7 @@ Token due diligence for the bankr.bot ecosystem. Get a safety score, honeypot de
 install the lintmus skill from https://github.com/lintmus/lintmus
 ```
 
-## What it does
+## Core Capabilities
 
 Lintmus analyzes a token contract and returns:
 
