@@ -56,11 +56,13 @@ nav {
 }
 
 .logo {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
   text-decoration: none;
-  letter-spacing: -0.02em;
+}
+
+.logo-img {
+  height: 32px;
+  width: auto;
+  display: block;
 }
 
 .nav-links {
