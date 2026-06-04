@@ -75,7 +75,7 @@ run lintmus before I ape into this
 ## Direct API
 
 ```bash
-curl -X POST https://x402.bankr.bot/0xD3aDb4D4B787eE631A1B2618464e21B229873075/analyze \
+curl -X POST https://x402.bankr.bot/0x8901c544cfb3f1e87ae80e66154b04aee5f0448f/Lintmus \
   -H "Content-Type: application/json" \
   -d '{"address": "0x532f27101965dd16442e59d40670faf5ebb142e4", "chain": "base"}'
 ```
