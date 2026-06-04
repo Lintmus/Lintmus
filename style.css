@@ -57,12 +57,24 @@ nav {
 
 .logo {
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .logo-img {
-  height: 32px;
+  height: 132px;
   width: auto;
   display: block;
+  background-color: #0a0a0f;
+  border-radius: 8px;
+}
+
+.logo-text {
+  font-size: 3.6rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
 
 .nav-links {
