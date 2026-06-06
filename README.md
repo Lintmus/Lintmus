@@ -12,13 +12,15 @@ Lintmus runs a multi-source safety analysis on any EVM or Solana token and retur
 
 | Check | Source |
 |-------|--------|
-| Honeypot detection | GoPlus Security |
+| Honeypot detection | GoPlus Security + honeypot.is |
 | Buy / sell tax | GoPlus Security |
 | Mint function, hidden owner, pausable transfers | GoPlus Security |
+| Malicious holder detection | GoPlus Security |
 | LP lock status | GoPlus Security |
-| Liquidity, volume, age | DexScreener |
+| Liquidity, volume, age, social signals | DexScreener |
+| Liquidity seeding detection | DexScreener |
 | Contract verification | Etherscan API V2 |
-| Deployer address & history | Alchemy |
+| Deployer address & cross-chain history | Alchemy (Base, ETH, Polygon) |
 
 ---
 
@@ -101,16 +103,20 @@ Lintmus starts at 100 and applies penalties and bonuses:
 | Sell tax 15–30% | −25 |
 | Hidden owner | −20 |
 | Can reclaim ownership | −15 |
+| Top 10 holders > 80% | −15 |
+| Liquidity seeding (< 24h, > $500K) | −15 |
+| Known rug deployer | −15 per rug |
 | Transfer pausable | −10 |
 | Mintable supply | −10 |
-| Top 10 holders > 80% | −15 |
 | Creator holds > 20% | −10 |
-| Known rug deployer | −15 per rug |
+| Malicious holder detected | −10 |
+| 3+ malicious holders | −20 |
+| No socials (token > 48h) | −5 |
 | Liquidity > $100K | +10 |
 | LP locked > 80% | +5 |
 | Contract verified | +5 |
-| Token age > 1 week | +3 |
 | Token age > 1 month | +5 |
+| Token age > 1 week | +3 |
 
 Scores are capped at 0–100. Missing data scores neutral — never inflated.
 

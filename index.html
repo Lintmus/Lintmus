@@ -74,7 +74,17 @@
         <div class="check-card">
           <div class="check-icon">💧</div>
           <h3>Liquidity Health</h3>
-          <p>Checks current liquidity depth, 24h volume, LP lock percentage, and how long the pair has existed.</p>
+          <p>Checks current liquidity depth, 24h volume, LP lock percentage, and how long the pair has existed. Flags new tokens with suspiciously high liquidity as potential seeding.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">📣</div>
+          <h3>Social Signals</h3>
+          <p>Detects whether the token has linked websites or social accounts. Established tokens with no socials score lower.</p>
+        </div>
+        <div class="check-card">
+          <div class="check-icon">🚨</div>
+          <h3>Malicious Holders</h3>
+          <p>Cross-checks top holders against GoPlus Security's malicious address database. Any flagged wallets in the top holders apply a penalty.</p>
         </div>
         <div class="check-card">
           <div class="check-icon">📄</div>
@@ -84,7 +94,7 @@
         <div class="check-card">
           <div class="check-icon">🕵️</div>
           <h3>Deployer History</h3>
-          <p>Looks up the wallet that deployed the contract. Known rug deployers are penalised per incident.</p>
+          <p>Looks up the deployer wallet across Base, ETH, and Polygon. Known rug deployers are penalised per incident.</p>
         </div>
       </div>
     </div>
@@ -105,10 +115,14 @@
           <tr class="penalty"><td>Hidden owner</td><td>−20</td></tr>
           <tr class="penalty"><td>Can reclaim ownership</td><td>−15</td></tr>
           <tr class="penalty"><td>Top 10 holders &gt; 80%</td><td>−15</td></tr>
+          <tr class="penalty"><td>Liquidity seeding (&lt; 24h, &gt; $500K)</td><td>−15</td></tr>
           <tr class="penalty"><td>Known rug deployer</td><td>−15 per rug</td></tr>
           <tr class="penalty"><td>Transfer pausable</td><td>−10</td></tr>
           <tr class="penalty"><td>Mintable supply</td><td>−10</td></tr>
           <tr class="penalty"><td>Creator holds &gt; 20%</td><td>−10</td></tr>
+          <tr class="penalty"><td>Malicious holder detected</td><td>−10</td></tr>
+          <tr class="penalty"><td>3+ malicious holders</td><td>−20</td></tr>
+          <tr class="penalty"><td>No socials (token &gt; 48h)</td><td>−5</td></tr>
           <tr class="bonus"><td>Liquidity &gt; $100K</td><td>+10</td></tr>
           <tr class="bonus"><td>LP locked &gt; 80%</td><td>+5</td></tr>
           <tr class="bonus"><td>Contract verified</td><td>+5</td></tr>
